@@ -1,46 +1,49 @@
-//include
+//20161031 
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
-#include<vector>//vector
-
-//
+#include<vector>
+#include<math.h>
+#include<string.h>
+#include <iostream>
+#include <bitset>
+#include <climits>
 using namespace std;
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-    	int totalzero=0;
-    	int idx=0;
-    	for(idx=0;idx<nums.size();idx++){
-    		if(nums[idx]==0){
-    			totalzero++;
-    			nums.erase(nums.begin()+idx);
-    			idx--;
+		if(nums.size()<=1) return;  
+		int current=0;
+		int nxt=current+1;
+		//remove the insertions & deletions of vectors to improve performance
+		while(current<nums.size() && nxt<nums.size()){
+			if(nums[current]==0){
+				if(nums[nxt]==0)nxt++;
+				else{
+					nums[current]=nums[nxt];
+					nums[nxt]=0;
+					nxt++;
+					current++;
+				}
+			}
+			else{
+				current++;
+				nxt++;
 			}
 		}
 		
-		for(idx=0;idx<totalzero;idx++){
-			nums.push_back(0);
-		}
-        
     }
 };
-//main
+
 int main(void){
+	Solution ss;
 	
-	int idx;
-	Solution aa;
-	vector<int> num2;
-	num2.push_back(0);
-//	num2.push_back(1);
-	num2.push_back(0);
-//	num2.push_back(3);
-//	num2.push_back(12);
-	
-	
-	aa.moveZeroes(num2);
-	for(idx=0;idx<num2.size();idx++)
-	cout<<num2[idx]<<endl;
-	
+	vector<int> a;
+    a.push_back(0);
+    a.push_back(1);
+    a.push_back(0);
+    a.push_back(3);
+    a.push_back(12);
+	ss.moveZeroes(a);
 	return 0;
 }
