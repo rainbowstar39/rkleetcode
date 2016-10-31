@@ -8,18 +8,22 @@ using namespace std;
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
-    //    vector<int> nums2;
+      vector<int> nums2;
         int idx;
         int tmp;
         //special case;//do we need to consider negative value?
         if (k==0) return;
         else {
         	//cout<<endl;
-        	for(idx=0;idx<k;idx++){
-		        tmp=nums.back();
-		       // cout<<tmp<<endl;
-				nums.pop_back();
-		        nums.insert(nums.begin(),tmp);
+        	int size=nums.size();
+        	
+        	for(idx=0;idx<size;idx++){
+				if(idx<k){
+					nums2[idx]=nums[size-k+idx+1];
+				}
+				else{
+					nums
+				}
 
 			}
 		}
