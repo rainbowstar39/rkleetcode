@@ -7,6 +7,9 @@ using namespace std;
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
+    	
+    	int count=1;
+    	int noneed=0;
     	if(nums.size()==0)return 0;
         if(nums.size()==1)return 1;
         if(nums.front()==nums.back())return 1;
@@ -18,30 +21,26 @@ public:
 		}
         vector<int>::iterator it,jt;
         it=nums.begin();
-        jt=it+1;
+        //jt=it+1;
         //cout<<*(it+1);
-        		 	
-		 while(it!=nums.end()){
-		 	jt=it+1;
-			while(jt!=nums.end()){
-			if(*jt==*it){
-				nums.erase(jt);
-				jt=it+1; 
+		
+		for(jt=it+1;jt<nums.end();jt++){
+			if(*it!=*jt){
+				*(it+1)=*(jt);
+				count++;
+				it++;
 			}
-			else	break;
-			//cout<<*jt<<","<<endl;
-				
-			}
-		 	it++;
-		 }
+		}
 		 
-		 return nums.size();
+		 nums.erase(nums.begin()+count,nums.end());
+		 
+		 return count;
     }
 };
 int main(void){
 
 	vector<int> nums;	
-	char str[]="1,1,2,2";
+	char str[]="1,1,1,2,3,4";
 	char *pch;
 	pch=strtok(str,",");
 	nums.push_back(atoi(pch));
