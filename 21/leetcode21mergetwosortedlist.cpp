@@ -27,8 +27,8 @@ class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     	
-    	fstream fs;
-    	fs.open("logleetcode21.log",fstream::in | fstream::out| fstream::app);
+    //	fstream fs;
+   // 	fs.open("logleetcode21.log",fstream::in | fstream::out| fstream::app);
     	//special case
     	//if empty
     	if(l1==NULL && l2==NULL) return NULL;
@@ -36,98 +36,84 @@ public:
     	if(l2==NULL && l1!=NULL) return l1;
     	
     	//usual case
+    	ListNode *result,*head;
     	ListNode *currenta,*currentb;
-    	ListNode *nexta,*nextb;
-    	ListNode *tmp,*prenode;
+
     	currenta=l1;
     	currentb=l2;
-    	prenode=NULL;
+    	
    
-   		nexta=currenta->next;
-   		nextb=currentb->next;
-   		
-   		//from the head
-   		if(currenta->val<=currentb->val)
-   		{	
-   			//a is the min
-   			currenta->next=currentb;
-   			currentb->next=nexta;
-   			
-   			prenode=currenta;
-			currenta=nexta;
-   		//	currentb=nextb;
-   			
-		}
-		else{
-			//b is the min
-			tmp=currenta;
-			l1=currentb;
-			//cout<<"currenta:"<<tmp<<"currentb:"<<currenta<<endl;
-
-			currentb->next=tmp;
-			
-			prenode=currentb;
-			currentb=nextb;
-		}
-		
 		
 		int cnt=0;
+		//head
+		if(currenta->val<=currentb->val){
+			// a is min
+			head=new ListNode(currenta->val);
+			currenta=currenta->next;
+		}
+		else{// b is min
+			head=new ListNode(currentb->val);
+			currentb=currentb->next;			
+		}
+		result=head;
+		
 		//from 2nd element;
 		while(currenta!=NULL && currentb!=NULL){
-			nexta=currenta->next;
-	   		nextb=currentb->next;
+
 	   		//cout<<"cnt:"<<(cnt++)<<"currenta:"<<currenta->val<<"currentb:"<<currentb->val<<endl;
-	   		fs<<"cnt:"<<(cnt++)<<"currenta:"<<currenta->val<<"currentb:"<<currentb->val;
+	   		//fs<<"cnt:"<<(cnt++)<<"currenta:"<<currenta->val<<"currentb:"<<currentb->val;
 	   		if(currenta->val<=currentb->val)
-	   		{
- 	  			fs<<"<"<<endl;
-				currenta->next=currentb;
-  	 			currentb->next=nexta;
-				prenode=currenta;
-   				currenta=nexta;
+	   		{	
+	   			//fs<<"currenta:"<<currenta->val<<",";
+ 	  			//fs<<"<"<<endl;
+				result->next= new ListNode(currenta->val);
+				currenta=currenta->next;
    			//	currentb=nextb;
 			}
 			else{
-				fs<<">"<<endl;
-				prenode->next=currentb;
-				currentb->next=currenta;
+	   			//fs<<"currentb:"<<currentb->val<<",";
+				//fs<<">"<<endl;
+				result->next=new ListNode(currentb->val);
+				currentb=currentb->next;
+			}
+			
+				   		
 
-				//tmp=currenta;
-				//currenta=currentb;
-				//cout<<"currenta:"<<tmp<<"currentb:"<<currenta<<endl;
-				prenode=currentb;
-				currentb=nextb;
-			}	   		
-
-
+			result=result->next;
 	   		
 		}
-		if(currenta==NULL){
-						currenta=currentb;
-		}
 
-		#if 1
+		if(currenta==NULL && currentb!=NULL){
+			result->next=currentb;
+		}
+		else if(currentb==NULL && currenta!=NULL) {
+			result->next=currenta;	
+		}	
+		
+		#if 0
 		time_t rawtime;
 		struct tm *timeinfo;
 		time(&rawtime);
 		timeinfo=localtime(&rawtime);
 		fs<<endl<<asctime(timeinfo)<<endl;
 		fs<<endl<<"------------------------------"<<endl;
-		fs.close();	
-		#endif		
 		fs.close();
-		return l1;
+		#endif		
+
+		return head;
     }
 };
 
 int main(void){
 
-	char strb[]="-17,5,19,19";
+	//char strb[]="-17,5,19,19";
 	//char strb[]="-30,-29,-28,-28";
-	char stra[]="-30,-29,-28,-28,-27,-26,-26,-23,-23,-21,-18,-18,-17,-15,-14,-13,-13,-8,-8,-7,-7,-4,-2,0,1,5,5,5,7,11,13,13,15,17,17,26,26,27,28";
+	//char stra[]="-30,-29,-28,-28,-27,-26,-26,-23,-23,-21,-18,-18,-17,-15,-14,-13,-13,-8,-8,-7,-7,-4,-2,0,1,5,5,5,7,11,13,13,15,17,17,26,26,27,28";
 	//char stra[]="2,4,6,8";
 	//char strb[]="1,2,5";
 	
+	char strb[]="2";
+	char stra[]="1";
 	vector<int> a;
 	vector<int> b;
 	
