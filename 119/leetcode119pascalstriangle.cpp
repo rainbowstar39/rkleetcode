@@ -5,6 +5,8 @@
 #include<stdlib.h>
 #include<string.h>
 using namespace std;
+
+//update the description on github
 //DATE:2016/04/20    TIME:20:33:25
 
 class Solution {
