@@ -18,6 +18,7 @@ public:
 			}
 			else{
 				if(length>0) return length;
+				
 			}
 		}
 		return length;
