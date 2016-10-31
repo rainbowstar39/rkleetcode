@@ -1,4 +1,4 @@
-//not correct?
+// correct and accepted
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
@@ -8,105 +8,71 @@
 #include<string.h>
 #include<time.h>
 using namespace std;
-struct stock{
-	int day;
-	int price;
-} ;
-bool comp(stock a, stock b){
-	return a.price<b.price?1:0;
-}
+
 class Solution {
 public:
-	vector<stock> removeduplicates(vector<stock>& arr){
-		//you can't remove duplicates, because we have to consider the same price but different day,
-		//the day order can't be ruined
-		
-		vector<stock>::iterator it,jt;
-		if(arr.size()<=1) return arr;
-		
-		it=arr.begin();
-		jt=it+1;
-		while(it!=arr.end() && jt!=arr.end()){
-			
-			if(it->price==jt->price){
-				arr.erase(jt);
-				jt=it+1;
-			}
-			else{
-				//cout<<it->price<<",";
-				
-				it++;
-				jt=it+1;
-			}
-			
-
-		}
-		cout<<endl;
-		return arr;
-	}
     int maxProfit(vector<int>& prices) {
-        vector<stock> array;
-        stock node;
-        int max=0;
-        int keepgoing=1;
-        int idx,jdx;
-       
-        //int l,r;
-        if(prices.size()==0)return 0;
-        for(idx=0;idx<prices.size();idx++){
-        	node.day=idx;
-        	node.price=prices[idx];
-        	array.push_back(node);
+ 		int min=0,max=0;
+ 		int mp=0;
+ 		
+ 		int idx;
+ 		//special case
+ 		if(prices.size()<=1)return 0;
+ 		//usual case
+		//when only 2
+		if(prices[1]>prices[0]){
+			max=prices[1];
+			min=prices[0];
+			mp=max-min;
 		}
-		sort(array.begin(),array.end(),comp);
+		else{
+			mp=0;
+			max=prices[0];
+			min=prices[1];
+		}
+		//from 3~n
+		//----------------
+		//fstream fs;
+		//fs.open("log_leetcode121.txt",fstream::in | fstream::out| fstream::app);
 		
-		//-----------------------------------
-		
-		array=removeduplicates(array);
-		
-		
-		#if 1
-		fstream fs;
+	//	int count=1;
+	//	int count2=1;
+		//----------------
+		for(idx=2;idx<prices.size();idx++){
+			//fs<<prices[idx]<<",";
+			if( (prices[idx]-min)>mp  ){
+			//if(prices[idx]>max){
+			  //  count2++;
+				max=prices[idx];
+				mp=max-min;
+				//----------------
+				//fs<<mp<<",";
+				//----------------
+			}
+			else if(prices[idx]<min){
+			//	count++;
+				//fs<<prices[idx]<<",";
+				min=prices[idx];
+			}
+		}
+		//fs<<endl<<"size:"<<prices.size()<<endl;
+		//fs<<"count:"<<count<<"//count2:"<<count2<<"//min:"<<min<<"//max:"<<max<<endl;
+		//----------------
+		#if 0
 		time_t rawtime;
 		struct tm *timeinfo;
-		fs.open("log_leetcode121.txt",fstream::in | fstream::out| fstream::app);
-		
-		for(idx=0;idx<array.size();idx++){
-			//cout<<array[idx].price<<",";
-			fs<<array[idx].price<<",";
-		}
 		time(&rawtime);
 		timeinfo=localtime(&rawtime);
 		fs<<endl<<asctime(timeinfo)<<endl;
 		fs<<endl<<"------------------------------"<<endl;
-		fs.close();
+		fs.close();	
+		#endif	
+		//----------------	
 		
-		#endif
-		//-----------------------------------	
-		idx=0;
-		jdx=array.size()-1;
-		while(idx<jdx && keepgoing==1){ 
-			if(array[idx].day>=array[jdx].day){
-				jdx=(idx+jdx)/2;
-				keepgoing=1;
-			}
-			else{
-				//if(max<(array[jdx].price-array[idx].price))
-				max=array[jdx].price-array[idx].price;
-				
-				keepgoing=0;
-				//	cout<<"jdx:"<<jdx<<"idx:"<<idx<<endl;
-				//	cout<<"array[jdx].price:"<<array[jdx].price<<"array[idx].price:"<<array[idx].price<<endl;
-			}
-			if(jdx==idx && keepgoing==1){
-				idx++;
-				jdx=array.size()-1;
-			}
-		}	
-		return max;
+ 		return mp;
+ 		
     }
 };
-
 int main(void){
 	
 	Solution aa;
