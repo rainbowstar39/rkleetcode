@@ -13,13 +13,7 @@ using namespace std;
 class Solution {
 	public:
 	int majorityElement(vector<int>& nums){
-		
-		int idx;
-		int jdx;
-		int times=1;//be careful
-		int times2=times;
-		int mj=0;//major element
-		
+
 	
 		//special case //if only one 
 		if (nums.size()==1) return nums.front();
