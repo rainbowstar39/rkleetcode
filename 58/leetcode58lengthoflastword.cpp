@@ -9,21 +9,16 @@ class Solution {
 public:
     int lengthOfLastWord(string s) {
 		if(s.size()==0)return 0;
-		vector<char> str;
 		int length=0;
-		for(int idx=0;idx<s.size();idx++){
+
+
+		for(int idx=s.size()-1;idx>=0;idx--){
 			if(s[idx]!=' '){
-				str.push_back(s[idx])	;			
+				length++;
 			}
 			else{
-				if(str.size()>0){
-					length=str.size();
-					str.clear();
-				}				
+				if(length>0) return length;
 			}
-		}
-		if(str.size()>0){
-			length=str.size();
 		}
 		return length;
     }
