@@ -29,61 +29,27 @@ public:
         ListNode *currenta,*currentb;
         ListNode *nexta,*nextb;
         
-        //special case
-        if(headA==NULL || headB==NULL) return NULL;
-        
-        
-        //common case
-        
-		int lena=0,lenb=0;
-		currenta=headA;
-		
-		ListNode *enda,*endb;
-		ListNode *rlsta,*rlstb;
-		ListNode *rheadA,*rheadB; 
-		ListNode *prea,*preb;
-		ListNode *newa,*newb;
-		
-		#if 1
-		while(currenta!=NULL){
-			lena++;
-			if(currenta==headA){
-				rlsta->next=NULL;
-				rlsta=NULL;
-			}
-			else if(currenta->next!=NULL){
-				rlsta=new ListNode(currenta->next->val); 
-				rlsta->next=new ListNode(currenta->val);	
-				rlsta->next->next=NULL;
-				rlsta=rlsta->next->next;					
-			}
-	
-			currenta=currenta->next;
-			
-		} 
-		
-
-		
-		currentb=headB;
-		while(currentb!=NULL){
-			lenb++;
-			if(currentb==headB){
-				rlstb->next=NULL;
-				rlstb=NULL;
-			}	
-			else if(currentb->next!=NULL){
-					rlstb=new ListNode(currentb->next->val);
-					rlstb->next=new ListNode(currentb->val);
-					rlstb=rlstb->next->next=NULL;
-			}			
-			currentb=currentb->next;
-			
-		} 
-		#endif
-		cout<<"lena:"<<lena<<"lenb:"<<lenb<<endl;
-		
-		
-
+        currenta=headA;
+        currentb=headB;
+     	while(currenta!=currentb){
+     		
+     		
+     		if(currenta!=NULL){
+     			currenta=currenta->next;
+			 }
+			 else{
+			 	currenta=headB;
+			 }
+			 
+			 if(currentb!=NULL){
+			 	currentb=currentb->next;
+			 }
+			 else{
+			 	currentb=headA;
+			 }
+		 }
+		 
+		 return currenta;
     }
 };
 
@@ -93,8 +59,11 @@ int main(void){
 
 	vector<int> a1;
 	vector<int> b1;
-	char stra[]="1,3,5,6,7,8,9,10";
-	char strb[]="2,4,6,7,8,9,10";
+	//char stra[]="1,3,5,6,7,8,9,10";
+	//char strb[]="2,4,6,7,8,9,10";
+	
+	char strb[]="3";
+	char stra[]="2,3";
 	
 	char* pch;
 	pch=strtok(stra,",");
@@ -126,10 +95,20 @@ int main(void){
 	}
 	
 	
+	
+	lista=NULL;
+	listb=NULL;
+	ListNode *listc;
+	listc=new ListNode(3);
+	
+	listb=new ListNode(2);
+	listb->next=listc;
+	lista=listc;
+	
 	Solution aa;
 	ListNode *c1;
 	c1=aa.getIntersectionNode(lista,listb) ;
-#if 0	
+#if 1	
 	ListNode *node;
 	node=c1;
 	while(node!=NULL){
