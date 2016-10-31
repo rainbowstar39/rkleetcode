@@ -18,7 +18,6 @@ using namespace std;
  	ListNode(int x):val(x),next(NULL){	 }
  };
 
-
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
@@ -32,7 +31,8 @@ public:
         //usual case
         idx=head;
         jdx=head->next;
-        while(idx!=NULL&&jdx!=NULL){
+        while(idx!=NULL){
+			if(jdx==NULL)break;
         	if(jdx->val==idx->val){
 				idx->next=jdx->next;
 				jdx=jdx->next;
@@ -47,7 +47,6 @@ public:
 		return head;
     }
 };
-
 
 int main(void){
 	ListNode node(5);
