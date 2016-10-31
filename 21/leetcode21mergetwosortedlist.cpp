@@ -3,6 +3,9 @@
 #include<iostream>
 #include<vector>
 #include<string.h>
+#include<fstream>
+#include<time.h>
+
 using namespace std;
 /**
  * Definition for singly-linked list.
@@ -24,6 +27,8 @@ class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     	
+    	fstream fs;
+    	fs.open("logleetcode21.log",fstream::in | fstream::out| fstream::app);
     	//special case
     	//if empty
     	if(l1==NULL && l2==NULL) return NULL;
@@ -31,56 +36,97 @@ public:
     	if(l2==NULL && l1!=NULL) return l1;
     	
     	//usual case
-    	ListNode *currenta,*currentb,*nexta,*nextb,*prea;
-    	ListNode *result;
+    	ListNode *currenta,*currentb;
+    	ListNode *nexta,*nextb;
+    	ListNode *tmp,*prenode;
     	currenta=l1;
     	currentb=l2;
-		
-    	//
-    	ListNode *prenod;
-		while(currenta!=NULL && currentb!=NULL)
-		{
-			nexta=currenta->next;
-			nextb=currentb->next;
-			#if 0
-			if(nexta!=NULL)
-			cout<<"nexta:"<<nexta->val<<endl;
-			if(nextb!=NULL)
-			cout<<"nextb:"<<nextb->val<<endl;
-			#endif
-			if(currenta->val<=currentb->val)
-			{
-				//currenta,currentb(prea),nexta,
-				result=new ListNode(currenta->val);
-				result->next=new ListNode(currentb->val);
-				//prenod=currentb;
-				currenta=nexta;
-			}
-			else //if(currenta->val>currentb->val)
-			{//     currentb,currenta (prea),nexta
-				result=new ListNode(currentb->val);
-				result->next=new ListNode(currenta->val);
-				//prenode=currenta;
-				currentb=nextb;
-			}
-				
-			result=result->next->next; 
+    	prenode=NULL;
+   
+   		nexta=currenta->next;
+   		nextb=currentb->next;
+   		
+   		//from the head
+   		if(currenta->val<=currentb->val)
+   		{	
+   			//a is the min
+   			currenta->next=currentb;
+   			currentb->next=nexta;
+   			
+   			prenode=currenta;
 			currenta=nexta;
-			currentb=nextb;			
-		}        
-		if(currenta==NULL&&currentb!=NULL)prea->next=currentb;
-		//currentb==NULL,currenta!=NULL 
+   		//	currentb=nextb;
+   			
+		}
+		else{
+			//b is the min
+			tmp=currenta;
+			l1=currentb;
+			//cout<<"currenta:"<<tmp<<"currentb:"<<currenta<<endl;
+
+			currentb->next=tmp;
+			
+			prenode=currentb;
+			currentb=nextb;
+		}
 		
+		
+		int cnt=0;
+		//from 2nd element;
+		while(currenta!=NULL && currentb!=NULL){
+			nexta=currenta->next;
+	   		nextb=currentb->next;
+	   		//cout<<"cnt:"<<(cnt++)<<"currenta:"<<currenta->val<<"currentb:"<<currentb->val<<endl;
+	   		fs<<"cnt:"<<(cnt++)<<"currenta:"<<currenta->val<<"currentb:"<<currentb->val;
+	   		if(currenta->val<=currentb->val)
+	   		{
+ 	  			fs<<"<"<<endl;
+				currenta->next=currentb;
+  	 			currentb->next=nexta;
+				prenode=currenta;
+   				currenta=nexta;
+   			//	currentb=nextb;
+			}
+			else{
+				fs<<">"<<endl;
+				prenode->next=currentb;
+				currentb->next=currenta;
+
+				//tmp=currenta;
+				//currenta=currentb;
+				//cout<<"currenta:"<<tmp<<"currentb:"<<currenta<<endl;
+				prenode=currentb;
+				currentb=nextb;
+			}	   		
+
+
+	   		
+		}
+		if(currenta==NULL){
+						currenta=currentb;
+		}
+
+		#if 1
+		time_t rawtime;
+		struct tm *timeinfo;
+		time(&rawtime);
+		timeinfo=localtime(&rawtime);
+		fs<<endl<<asctime(timeinfo)<<endl;
+		fs<<endl<<"------------------------------"<<endl;
+		fs.close();	
+		#endif		
+		fs.close();
 		return l1;
     }
 };
 
 int main(void){
 
-	//char stra[]="-17,5,19,19";
-	//char strb[]="-30,-29,-28,-28,-27,-26,-26,-23,-23,-21,-18,-18,-17,-15,-14,-13,-13,-8,-8,-7,-7,-4,-2,0,1,5,5,5,7,11,13,13,15,17,17,26,26,27,28";
-	char stra[]="2,4,6,8";
-	char strb[]="1,2,5";
+	char strb[]="-17,5,19,19";
+	//char strb[]="-30,-29,-28,-28";
+	char stra[]="-30,-29,-28,-28,-27,-26,-26,-23,-23,-21,-18,-18,-17,-15,-14,-13,-13,-8,-8,-7,-7,-4,-2,0,1,5,5,5,7,11,13,13,15,17,17,26,26,27,28";
+	//char stra[]="2,4,6,8";
+	//char strb[]="1,2,5";
 	
 	vector<int> a;
 	vector<int> b;
@@ -141,7 +187,7 @@ int main(void){
 		currenta=currenta->next;
 	}
 	#endif
-	#if 1
+	#if 0
 	ListNode *currenta;
 	currenta=lista;
 	while(currenta!=NULL){
@@ -158,9 +204,9 @@ int main(void){
 	
 	#endif
 	
-	cout<<"addr a:"<<lista<<"addr b:"<<listb<<endl;
-	lista=listb;
-	cout<<"addr a:"<<lista<<endl; 
+//	cout<<"addr a:"<<lista<<"addr b:"<<listb<<endl;
+//	lista=listb;
+//	cout<<"addr a:"<<lista<<endl; 
 	#if 0
 	for(int idx=1;idx<a.size();idx++){
 		cout<<a[idx]<<",";
