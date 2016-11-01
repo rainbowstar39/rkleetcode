@@ -17,10 +17,20 @@ public:
     	if(num==0) return rr;
 		int preidx=2;
     	for(int idx=1;idx<=num;idx++){
-    		if(idx==1)rr[idx]=1;
-    		if(idx==2)rr[idx]=1;
-    		if((idx-preidx)<preidx)rr[idx]=rr[preidx]+rr[idx-preidx];
-    		else if( (idx-preidx)==preidx) {
+    		if(idx==1){
+    		    rr[idx]=1;
+    		    continue;
+    		}    
+    		if(idx==2){
+    		    rr[idx]=1;
+    		    continue;
+    		}    
+    		
+    		int tmp;
+    		tmp=idx-preidx;
+    		//use tmp to remove abundant calculations of idx-preidx
+    		if(tmp <preidx)rr[idx]=rr[preidx]+rr[tmp];
+    		else if( tmp==preidx) {
     			preidx=idx;
     			rr[idx]=1;
 			}
@@ -29,6 +39,7 @@ public:
 		return rr;
     }
 };
+
 
 int main(void){
 	Solution aa;
