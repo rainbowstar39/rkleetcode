@@ -24,44 +24,57 @@ using namespace std;
       TreeNode *right;
       TreeNode(int x) : val(x), left(NULL), right(NULL) {}
   }; 
+  #define MAX(x,y,z) ((x>y?1:0) & (x>z?1:0))
+  #define MIN(x,y,z) ((x<y?1:0) & (x<z?1:0))
 class Solution {
 public:
-
+	bool checkmax(TreeNode *root,TreeNode *p, TreeNode *q){
+		if(MAX(root->val,p->val,q->val))	
+		return true;
+		
+		return false;
+	}
+	bool checkmin(TreeNode *root,TreeNode *p,TreeNode *q){
+		if(MIN(root->val,p->val,q->val))	
+		return true;
+		
+		return false;
+	}
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         //special case
-		if(root==NULL) return NULL;
-		//printf("\n%s %d\n",__FUNCTION__,__LINE__);
-		
-		if(p->val<root->val && q->val<root->val)
-		return lowestCommonAncestor(root->left,p,q);
-		if(p->val>root->val && q->val>root->val)
-		return lowestCommonAncestor(root->right,p,q);
-		if(p->val<=root->val && root->val<q->val)
-		return root;
-		if(p->val>=root->val && root->val>q->val)
-		return root;		
-		if(p->val<root->val && root->val<=q->val)
-		return root;
-		if(p->val>root->val && root->val>=q->val)
-		return root;
-		
-		return NULL;
+		if(root==NULL) return root;
+		bool ifmax=0,ifmin=0;
+   
+
+			if(root->val==p->val && p->val>q->val) return root;
+			if(root->val==q->val && p->val>q->val) return root;
 			
+			ifmax=checkmax(root,p,q);
+			ifmin=checkmin(root,p,q);
+						
+			if(ifmax==false && ifmin==false) return root;
+			if(ifmax==true) return lowestCommonAncestor(root->left,p,q);
+			if(ifmin==true) return lowestCommonAncestor(root->right,p,q);
+			
+
+		
+
+        return NULL;
     }
 };
 
 int main(void){
 	
-	TreeNode *root=new TreeNode(2);
-	root->left=new TreeNode(1);
-	root->right=new TreeNode(3);	
-	//TreeNode *p=new TreeNode(4);
-	//TreeNode *q=new TreeNode(5);
+	TreeNode *root=new TreeNode(4);
+	root->left=new TreeNode(2);
+	root->right=new TreeNode(5);	
+	root->left->left=new TreeNode(1);
+	root->left->right=new TreeNode(3);
 	Solution aa;
 	TreeNode *tmp;
-	tmp=aa.lowestCommonAncestor(root,root,root->right);
-	if(tmp!=NULL)
+	//cout<<(3&10)<<endl;
+	//cout<<aa.checkmax(root,root->left,root->right)<<endl;
+	tmp=aa.lowestCommonAncestor(root,root,root->left);
 	cout<<tmp->val<<endl;
-	else cout<<"NULL"<<endl;
 	return 0;
 }
