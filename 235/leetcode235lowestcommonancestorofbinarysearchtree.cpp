@@ -26,32 +26,27 @@ using namespace std;
   }; 
 class Solution {
 public:
+
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         //special case
-		if(root==NULL) return root;
-        while(root!=NULL){
-        	if(p->val < root->val && root->val < q->val ) 				
-				return root;
-			if(q->val < root->val && root->val < p->val ) 	
-				return root;	
-        	if(p->val == root->val && p->val < q->val) 
-        		return root;
-        	if(p->val == root->val && q->val<p->val)
-        	    return root;
-        	    
-        	if(q->val==root->val && p->val<q->val)
-				return root;
-			if(q->val==root->val && q->val<p->val)
-			    return root;
-			    
-			if(p->val<root->val && q->val<root->val)
-				root=root->left;
-			if(p->val>root->val && q->val>root->val)
-				root=root->right;    
-		}
+		if(root==NULL) return NULL;
+		//printf("\n%s %d\n",__FUNCTION__,__LINE__);
 		
-
-        return NULL;
+		if(p->val<root->val && q->val<root->val)
+		return lowestCommonAncestor(root->left,p,q);
+		if(p->val>root->val && q->val>root->val)
+		return lowestCommonAncestor(root->right,p,q);
+		if(p->val<=root->val && root->val<q->val)
+		return root;
+		if(p->val>=root->val && root->val>q->val)
+		return root;		
+		if(p->val<root->val && root->val<=q->val)
+		return root;
+		if(p->val>root->val && root->val>=q->val)
+		return root;
+		
+		return NULL;
+			
     }
 };
 
@@ -60,9 +55,13 @@ int main(void){
 	TreeNode *root=new TreeNode(2);
 	root->left=new TreeNode(1);
 	root->right=new TreeNode(3);	
+	//TreeNode *p=new TreeNode(4);
+	//TreeNode *q=new TreeNode(5);
 	Solution aa;
 	TreeNode *tmp;
-	tmp=aa.lowestCommonAncestor(root,root->right,root->left);
+	tmp=aa.lowestCommonAncestor(root,root,root->right);
+	if(tmp!=NULL)
 	cout<<tmp->val<<endl;
+	else cout<<"NULL"<<endl;
 	return 0;
 }
