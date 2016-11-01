@@ -41,7 +41,7 @@ public:
     bool isBalanced(TreeNode* root) {
     	if(root==NULL) return true;
     	//if(root->left==NULL && root->right==NULL) return true;
-    	return height(root)>0? 1:0;
+    	return height(root)>0;
 
     }
     
@@ -54,7 +54,7 @@ int main(void){
 	root->left->left=new TreeNode(3);
 	root->right=new TreeNode(4);
 	root->right->right=new TreeNode(5);
-	//root->right->right->right=new TreeNode(6);
+	root->right->right->right=new TreeNode(6);
 	Solution aa;
 //	cout<<aa.height(root)<<endl;
 	cout<<aa.isBalanced(root);
