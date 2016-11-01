@@ -25,19 +25,26 @@ class Solution {
 public:
 	int height(TreeNode* root){
 		if(root==NULL) return 0;
-		if(root->left==NULL && root->right==NULL) return 1;
-		else max(height(root->left)+1,height(root->right)+1);
+		printf("\n%s %d\n",__FUNCTION__,__LINE__);
+		return  1+max(height(root->left),height(root->right));
 	}
     bool isBalanced(TreeNode* root) {
     	if(root==NULL) return true;
-		if(root->left==NULL && root->right==NULL) return true;
-		else {
-			return isBalanced(root->left) && isBalanced(root->right)&&(abs(height(root->left)-height(root->right))>1? 0:1);
-		}
+    	printf("\n%s %d\n",__FUNCTION__,__LINE__);
+		if(abs(height(root->left)-height(root->right))>1) return false;
+
+		return isBalanced(root->left) && isBalanced(root->right);
 
     }
     
 };
 int main(void){
+	
+	TreeNode *root;
+	root=new TreeNode(1);
+	root->left=new TreeNode(2);
+	root->left->right=new TreeNode(3);
+	Solution aa;
+	cout<<aa.isBalanced(root);
 	return 0;
 }
