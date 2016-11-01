@@ -27,79 +27,75 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-   		vector<int> result;
-   		result.clear();
-		if(root==NULL) return result;
-
-		vector<TreeNode*> ss;//stack 
-   		int leftnull=0;
-		int rightnull=0;
-		//common case
-		//VLR
-		TreeNode *tmp;
-		tmp=NULL;
-
-		
-		while(root){
-				result.push_back(root->val);
-			//	cout<<root->val<<endl;
-				
-				if (root->right==NULL || root->right->val=='#')rightnull=1;
-				else if(root->right!=NULL) {
-					
-					rightnull=0;
+        vector<TreeNode*> ss;
+        //TreeNode node;
+        vector<int> rr;
+        bool stackmode=false;
+        bool leftsub=false;
+        bool rightsub=false;
+        if(root==NULL) return rr;
+        
+      //  ss.push_back(root);
+        while(root){
+        	if(root->left)leftsub=true;
+        	else leftsub=false;
+        	if(root->right) rightsub=true;
+        	else rightsub=false;
+        	
+        	if(stackmode){
+        		if(rightsub){
+        			//have right
+        			root=root->right;
+        			stackmode=false;
 				}
-				
-				if(root->left==NULL || root->left->val=='#')leftnull=1;
-				else if(root->left!=NULL){
-					leftnull=0;
-				} 
-				
-				if(leftnull==1 && rightnull==1 )
-				{
-					if(ss.empty()) return result;
-					else{
-						//pop stack
-						tmp=ss.back();
-						//cout<<tmp->val<<endl;
-						ss.pop_back();
-						//result.push_back(tmp->val);
-						root=tmp;
-
-					}
+				else {
+					//no right
+					if(ss.empty())break;
+					root=ss.back();
+					ss.pop_back();
 				}
-				#if 1
-				else if(leftnull==1 && rightnull==0){
-					//ss.push_back(root->right);//make duplicate
+				 
+			}
+			else {
+				if(leftsub){
+					rr.push_back(root->val);
+					ss.push_back(root);
+					root=root->left;
+				}
+				else if(rightsub){
+					rr.push_back(root->val);
 					root=root->right;
+				}
+				else {
+					//leaf
+					//no child
 					
-				}
-				#endif
-				else if(leftnull==0 && rightnull==1){
-					root=root->left;
-				}
-				else{
-					ss.push_back(root->right);
-					root=root->left;
+					rr.push_back(root->val);
+					if(ss.empty()) break;
+					root=ss.back();
+					ss.pop_back();
+					stackmode=true;
 				}
 				
-										
+			}
+        	
+        	
 		}
 		
-		return result;
-        
+		return rr;
     }
 };
-
 int main(void){
-	TreeNode *tmp;
-	tmp=new TreeNode(1);
-	tmp->left=new TreeNode(2);
-	tmp->right=new TreeNode(3);
+	TreeNode *root;
+	root=new TreeNode(1);
+	root->left=new TreeNode(3);
+	root->right=new TreeNode(4);
+//	root->left->left=new TreeNode(5);
+	root->right->right=new TreeNode(7);
 	
 	vector<int> result;
 	Solution aa;
-	result=aa.preorderTraversal(tmp);
+	result=aa.preorderTraversal(root);
 	
 	for(int idx=0;idx<result.size();idx++){
 		cout<<result[idx]<<endl;
