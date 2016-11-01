@@ -25,44 +25,54 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int> > levelOrderBottom(TreeNode* root) {
-  		      vector<vector<int> > rr,rr2;
-  		      if(root==NULL) return rr;
-  		      vector<TreeNode*> ss,ss2;
-			  vector<int> tt;
-			  TreeNode *tmp;
-			  int idx;
-			    		     
-			  tt.push_back(root->val);
-			  rr.push_back(tt);
-			  ss.push_back(root);
-			  
-			  if(root->left==NULL && root->right==NULL) return rr;
-			  tt.clear();
-			  while(ss.size()>0){
-					for(idx=0;idx<ss.size();idx++){
-						tmp=ss[idx];
-						//cout<<tmp->val<<",";
-						if(tmp->left) {
-							ss2.push_back(tmp->left);
-							tt.push_back(tmp->left->val);
-						}
-						if(tmp->right) {
-							ss2.push_back(tmp->right);
-							tt.push_back(tmp->right->val);
-						}
-					}			  	
-					if(ss2.empty()) break;
-					ss=ss2;
-					rr.push_back(tt);
-					tt.clear();
-					ss2.clear();
-			  }				  
-			  
-			  for(idx=rr.size()-1;idx>=0;idx--){
-			  	rr2.push_back(rr[idx]);
-			  }
-			  
-			  return rr2;
+    	vector< vector<int> > rr,rr2;
+    	if(root==NULL) return rr;
+    	
+    	vector<int> tt,tt2;
+    	vector<TreeNode*> ss,ss2;
+		int idx;
+		ss.push_back(root);
+		tt.push_back(root->val);
+		rr.push_back(tt);
+	    	
+    	if(root->left==NULL && root->right==NULL)
+        return rr;
+    
+        rr2=rr;
+        while(ss.size()>0){
+    		ss2.clear();   
+			tt.clear(); 	
+        	for(idx=0;idx<ss.size();idx++){
+        		if(ss[idx]->left){
+        		//	cout<<ss[idx]->left->val<<",";
+					tt.push_back(ss[idx]->left->val);
+					ss2.push_back(ss[idx]->left);
+				}
+        		if(ss[idx]->right){
+        		//	cout<<ss[idx]->right->val<<",";
+					tt.push_back(ss[idx]->right->val);
+					ss2.push_back(ss[idx]->right);
+				}
+			}
+			if(ss2.size()>0){
+				ss=ss2;
+				rr2.push_back(tt);
+				//use push_back instead of insert
+				//beat 21.8% (64ms->8ms)
+			} 
+			else {
+				break;
+			}
+			
+		}
+		
+		int jdx=0;
+		rr=rr2;
+		for(int idx=rr2.size()-1;idx>=0;idx--){
+			rr[jdx++]=rr2[idx];
+		}
+		return rr;
+        
     }
 };
 
