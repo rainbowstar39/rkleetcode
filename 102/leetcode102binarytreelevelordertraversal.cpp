@@ -25,49 +25,48 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int> > levelOrder(TreeNode* root) {
-    	
-    	//special case;
-    	vector<vector<int> > rr;
-    	vector<int> tmp;
-    	vector<TreeNode*> ss,ss2;
-    	if(root==NULL) return rr;
+ 		vector<vector<int> > rr;
+		 if(root==NULL) return rr;
+		 vector<TreeNode*> lst,tmp;
+		 
+		 vector<int> tt;
+		 TreeNode *node;
+		 tt.push_back(root->val);
+		 //cout<<tt.back()<<",";
+		 rr.push_back(tt);
+		 tt.clear();
+		 if(root->left==NULL && root->right==NULL) return rr;
+		 
+		 lst.push_back(root);		 
+		 while(lst.size()>0){
+		 	for(int idx=0;idx<lst.size();idx++){
+		 		 node=lst[idx];
+		 		 
+		 		 if(node->left){
+				  tmp.push_back(node->left);
+     		 	  tt.push_back(node->left->val);
+     		 	  //cout<<tt.back()<<",";
+				  }
+		 		 if(node->right){
+				  tmp.push_back(node->right);
+				  tt.push_back(node->right->val);
+				  //cout<<tt.back()<<",";
+				  }
+			 }
+			 	
+			 if(tmp.empty()) break;
+			  		 
+			 lst=tmp;
+			 rr.push_back(tt);	
+			 tt.clear();		
+			 tmp.clear();
 
-    	tmp.push_back(root->val);
-    	ss.push_back(root);
-    	rr.push_back(tmp);
-      	if(root->left==NULL && root->right==NULL) {	
-    		return rr;
-		}
-		int idx=0;
-		while(ss.size()>0){
-			tmp.clear();
-			for(idx=0;idx<ss.size();idx++){
-			//	cout<<ss[idx]->val<<endl;
-				if(ss[idx]->left){
-					ss2.push_back(ss[idx]->left);
-					tmp.push_back(ss[idx]->left->val);
-				}
-				if(ss[idx]->right){
-					ss2.push_back(ss[idx]->right);
-					tmp.push_back(ss[idx]->right->val);
-				}
-			}
-			
-			if(tmp.size()>0)
-			rr.push_back(tmp);
-			
-			else break; //beat 78.8%
-			
-			ss.clear();
-			ss=ss2;
-			ss2.clear();			
-		}
-		
-		return rr;
-		
+		 }       
+		 return rr;
+    }
    
         
-    }
+    
 };
 
 int main(void){
