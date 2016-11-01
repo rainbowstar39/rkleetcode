@@ -27,72 +27,34 @@ using namespace std;
 class Solution {
 public:
     int minDepth(TreeNode* root) {
-    	int min=0;
-		if(root==NULL) return min;
-		
-		vector<TreeNode*> ss,ss2;
-    	int stopflag=0;
-
-
-		//ss.push_back(root);
-		min++;//1
-		if(root->left==NULL && root->right==NULL) {	
-			return min;
-		}
-	//	printf("%s %d min:%d\n",__FUNCTION__,__LINE__,min);
-
-		if(root->left || root->right){
-					min++;//2
-				
-		//printf("%s %d min:%d\n",__FUNCTION__,__LINE__,min);
-
-		}
-		
-		#if 0
-		if(root->left==NULL || root->right==NULL){
-			skewflag=1;
-		}
-		#endif
-		
-		if(root->left)
-		ss.push_back(root->left);
-
-		
-		if(root->right)
-		ss.push_back(root->right);	
-		
-		
-		while(!ss.empty()){
-			
-			for(int idx=0;idx<ss.size();idx++){
-				if(ss[idx]->left==NULL & ss[idx]->right==NULL){
-					stopflag=1;
-					break;
-				}				
-
-				if(ss[idx]->left){
-					ss2.push_back(ss[idx]->left);
-
-				}
-				if(ss[idx]->right){
-					ss2.push_back(ss[idx]->right);
-				}
+        //get the level //level order
+        TreeNode *node;
+        vector<TreeNode*> ss,ss2;
+        int depth=0;
+		if(root==NULL) return depth;
+        depth++;//root
+        if(root->left==NULL && root->right==NULL)
+        return depth;
+        
+        ss.push_back(root);
+        while(ss.size()>0){
+        	for(int idx=0;idx<ss.size();idx++){
+        		node=ss[idx];
+        		if(node->left==NULL && node->right==NULL)
+        		return depth;
+        		if(node->left) ss2.push_back(node->left);
+        		if(node->right) ss2.push_back(node->right);
 			}
-
-			if(stopflag ){
-				break;
-			}			
-			if(ss2.empty())
-			break;
-			
-			min++;
-			
+			if(ss2.empty()) break;
+			depth++;
 			ss=ss2;
-			ss2.clear();
+			ss2.clear()	;
+					
 		}
 		
-    	
-    	return min;
+		return depth;
+		
+		
         
     }
 };
