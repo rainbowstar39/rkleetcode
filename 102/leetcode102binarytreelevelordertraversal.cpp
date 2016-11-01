@@ -56,7 +56,7 @@ public:
 			if(tmp.size()>0)
 			rr.push_back(tmp);
 			
-			else break;
+			else break; //beat 78.8%
 			
 			ss.clear();
 			ss=ss2;
