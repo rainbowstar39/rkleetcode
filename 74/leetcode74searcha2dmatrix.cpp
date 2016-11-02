@@ -8,46 +8,26 @@ using namespace std;
 class Solution {
 public:
     bool searchMatrix(vector<vector<int> >& matrix, int target) {
-        int left,right,middle;
-        int lleft,rright,mmiddle;
-        
-        
-        left=0;
-        right=matrix.size()-1;
-        lleft=0;
-        
-        rright=matrix[0].size()-1;
-//        cout<<"**rright:"<<rright<<endl;
-        
-        while(left<=right){
-        	middle=(left+right)>>1; // div2
-			if(target<matrix[middle][0]) right=middle;
-        	else if(target>matrix[middle][rright])left=middle;
-        	
-        //	cout<<"left:"<<left<<"right:"<<right<<"middle:"<<middle<<endl;
-			if(left==right){
-				if(target<matrix[left][0] || target > matrix[right][rright])  return false;
-				else {
-					int idx=left;
-					while(lleft<=rright){
-						mmiddle=(lleft+rright)>>1;//div2
-						if(target<matrix[idx][mmiddle]) rright=mmiddle;
-						else if(target > matrix[idx][mmiddle]) lleft=mmiddle;
-						else if(target==matrix[idx][mmiddle] ) return true;
-						
-					//	cout<<"lleft:"<<lleft<<"rright:"<<rright<<endl;
-						if(lleft==rright){
-							if (target==matrix[idx][lleft]) return true;
-							else return false;
-						}
-						
-					}
-				}
-			}
-		
+  	     int rowsize=matrix.size();
+  	     int colsize=matrix[0].size();
+  	     int row=0;
+  	     int col=colsize-1;
+  	     while(1){
+  	    
+		  if(target>matrix[row][col]){
+		  	row++;
+		  } 
+		  else if(target<matrix[row][col]){
+		  	col--;
+		  }	
+		  else {
+		  	return true;
+		  }
+		  
+		  if(row==rowsize || col<0 ) break;
 		}
-		
-		return false;
+ 		return false;
+  	     
     }
 };
 
