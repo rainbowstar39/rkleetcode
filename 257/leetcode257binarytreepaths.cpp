@@ -2,12 +2,13 @@
 #include<iostream>
 #include<stdlib.h>
 #include<string.h>
-#include<sstream>
 #include<vector>
 #include<string>
+#include<sstream>
 using namespace std;
-//DATE:2016/05/07    TIME:16:40:55
-//wrong answer***********
+//DATE:2016/05/08    TIME:15:49:23
+//accepted
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -22,175 +23,104 @@ using namespace std;
       TreeNode *left;
       TreeNode *right;
       TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-  };
+  }; 
 class Solution {
 public:
-	vector<int> inorder(TreeNode *root){
-		vector<int> rr;
-		if(root==NULL) return rr;
 
-		TreeNode *node;
-		bool leftsub=false;
-		bool rightsub=false;
-		vector<TreeNode*> ss;
-		bool stackmode=false;
-	
+    vector<string> binaryTreePaths(TreeNode* root) {
+    //fail
+		vector<string> finalrr;
+		vector<string> strstack;
+		string str;
+		stringstream sst;
+		if(root==NULL) return finalrr;
+		vector<TreeNode*> ss;//stacknode
+		
+		
+		bool leftsub=false,rightsub=false;
+		bool preleftsub=false,prerightsub=false;
+	    bool stackmode=false;
+		
 		while(root!=NULL){
-
-			if(root->left)leftsub=true;
+			if(root->left)
+			leftsub=true;
 			else leftsub=false;
-			if(root->right)rightsub=true;
+			
+			if(root->right)
+			rightsub=true;
 			else rightsub=false;
-
+			
 			if(stackmode){
 				if(rightsub){
-					stackmode=false;
-					if(ss.empty())
-					rr.push_back(root->val);
-
 					root=root->right;
+					stackmode=false; 
 					
 				}
-				else{
-					rr.push_back(root->val);
-					if(ss.empty())break;					
-					root=ss.back();
-					ss.pop_back();
-				}
-
-			}
-			else {
-				if(leftsub){
-					ss.push_back(root);
-					root=root->left;
-					
-
-				}
-				else if(rightsub){
-					rr.push_back(root->val);
-					root=root->right;
-					
-				}
-				else { //leaf
-					rr.push_back(root->val);
+				else {
 					if(ss.empty()) break;
 					root=ss.back();
 					ss.pop_back();
-					stackmode=true;
+					
+					sst.str("");
+					sst.clear();
+					sst<<strstack.back();
+					strstack.pop_back();
 				}
-			}
-		}
-
-		return rr;
-
-	}
-    vector<string> binaryTreePaths(TreeNode* root) {
-    	string rr;
-    	vector<string> finalrr;
-    	if(root==NULL) return finalrr;
-    	vector<int> pp;
-    	vector<TreeNode*> ss;
-    	bool leftsub=false;
-    	bool rightsub=false;
-    	bool stackmode=false;
-    	TreeNode* node;
-    	
-    	while(root){
-    		
-    		if(root->left) leftsub=true;
-    		else leftsub=false;
-    		if(root->right) rightsub=true;
-    		else rightsub=false;
-    		
-    		if(stackmode){
-    			if(rightsub){
-    				pp.push_back(root->val);
-    				root=root->right;
-    				stackmode=false;
-				}
-				else{
-					if(ss.empty())break;
-					root=ss.back();
-					ss.pop_back();
-				}
-    			
+				
 			}
 			else {
 				if(leftsub){
+					sst<<root->val<<"->";
+					strstack.push_back(sst.str());
 					ss.push_back(root);
-					pp.push_back(root->val);//path
 					root=root->left;
-				}
+				}	
 				else if(rightsub){
-					pp.push_back(root->val);//path
+					sst<<root->val<<"->";
 					root=root->right;					
-					
 				}
-				else {//leaf
-				     pp.push_back(root->val);
-					//finalrr.push_back(rr)
-					//rr.push_back(pp[0]);
-					stringstream tmp;
-					tmp<<pp[0];
-					for(int idx=1;idx<pp.size();idx++){
-				
-						tmp<<"->"<<pp[idx];
-						
-		//				cout<<pp[idx]<<",";
-					}
-		//			cout<<endl;
-					finalrr.push_back(tmp.str());
-					pp.clear();
+				else {
+					//leaf
+					stackmode=true;					
+							
+					sst<<root->val;
+
+					finalrr.push_back(sst.str());
 					
-					//pop the stack
+					
 					if(ss.empty()) break;
 					root=ss.back();
 					ss.pop_back();
-					stackmode=true;
-					//save pp (path) again
-					for(int idx=0;idx<ss.size();idx++)
-					{
-						node=ss[idx];
-						pp.push_back(node->val);
-					}
 					
-					//break;				
+					
+					sst.str("");
+					sst.clear();
+					sst<<strstack.back();
+					//cout<<"****"<<sst.str()<<endl;
+					strstack.pop_back();
 					
 				}
-				
 			}
+			
 		}
-		
-		return finalrr;
-
+		 return finalrr;
+        
     }
 };
 int main(void){
-	TreeNode *root;
-	root=new TreeNode(1);
-	root->left=new TreeNode(2);
-	//root->left->left=new TreeNode(3);
-	root->right=new TreeNode(4);
-	root->right->right=new TreeNode(5);
+	vector<string> rr;
 	Solution aa;
-	vector<int> rr;
-	vector<string> finalrr;
-	#if 0
-	rr=aa.inorder(root);
-	cout<<endl<<"-------------------ans------------------"<<endl;
-
-	for(int idx=0;idx<rr.size();idx++)
-	cout<<rr[idx]<<",";
-	#endif
-	
-	finalrr=aa.binaryTreePaths(root);
-	string rr2;
-	//rr2.insert(rr2.end(),string(15));
-	//cout<<rr2<<endl;
-	for(int idx=0;idx<finalrr.size();idx++){
-		rr2=finalrr[idx];
-		cout<<rr2<<endl;
+	TreeNode* root; 	
+	root=new TreeNode(1);
+	root->left=new TreeNode(3);
+	root->right=new TreeNode(4);
+	root->left->left=new TreeNode(5);
+	root->left->right=new TreeNode(6);
+	root->right->right=new TreeNode(7);	
+	rr=aa.binaryTreePaths(root);
+	cout<<endl<<"---------ans--------------"<<endl;
+	for(int idx=0;idx<rr.size();idx++){
+		cout<<rr[idx]<<endl;
 	}
 	return 0;
 }
-
