@@ -7,7 +7,6 @@
 using namespace std;
 //DATE:2016/04/25    TIME:15:39:58
 //DATE:2016/04/25    TIME:16:10:17
-//accepted
 
 /**
  * Definition for a binary tree node.
@@ -37,25 +36,22 @@ using namespace std;
 class Solution {
 	
 public:
-	bool checkexists(TreeNode* root, TreeNode* n){
-		if(root==NULL) return false;
-		//printf("\n%s %d *root:%d *n:%d\n",__FUNCTION__,__LINE__,root->val,n->val);
-		if(root==n) return true;
-		if(checkexists(root->left,n)==false) return checkexists(root->right,n);
-		
-		return checkexists(root->left,n);
-	}
+
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         //special case
 		if(root==NULL) return NULL;
 		if(root==p) return root;
 		if(root==q) return root;
 		//printf("\n%s %d\n",__FUNCTION__,__LINE__);
-		if( checkexists(root->left,q)==false && checkexists(root->left,p)==false ) return lowestCommonAncestor(root->right,p,q);
-		if( checkexists(root->right,q)==false && checkexists(root->right,p)==false ) return lowestCommonAncestor(root->left,p,q);
+		TreeNode *l,*r;
+		l=lowestCommonAncestor(root->left,p,q);
+		r=lowestCommonAncestor(root->right,p,q);
 		
-		return root;
+    	if(l&&r) return root;
+		//if root->left==p, and root->right==q
+		
 			
+		return l? l:r;			
     }
 };
 int main(void){
