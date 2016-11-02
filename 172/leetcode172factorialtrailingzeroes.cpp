@@ -20,6 +20,7 @@ public:
 		int cnt=0;
 		unsigned long idx;
         
+        // 5^idx affects the 0
         for (idx=5;idx<=n;idx*=5){
 			cnt+=(n/idx);				   
 
