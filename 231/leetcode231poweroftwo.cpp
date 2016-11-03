@@ -13,13 +13,11 @@ using namespace std;
 //use double to calculate
 bool isPowerOfTwo(int n) {
 	if(n<=0)return false;
-	while(n>0){
-		if(n==1) return true;
-		else if(n&1)return false;
-		n=n>>1;
-		
-	}
-	return true;
+	double val;
+	val=log10(n)/log10(2);
+	cout<<"check";
+	if(val==((int)val)) return true;
+	else return false;
 	/*
 	if(n/2>1)return isPowerOfTwo(n/2);
         else if(n/2==1) return 1;
@@ -27,6 +25,6 @@ bool isPowerOfTwo(int n) {
 }
 int main(void){
 
-	cout<<isPowerOfTwo(3072);
+	cout<<isPowerOfTwo(1024);
 	
 }
