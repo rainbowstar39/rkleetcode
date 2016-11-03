@@ -1,4 +1,4 @@
 # rkleetcode
 my solutions for leetcode
-# 20161101
+# 20161102
 algo problem #100 so far
